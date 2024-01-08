@@ -21,7 +21,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          spec: /**/*.cy.js
+          spec: ./**/*.cy.js
           working-directory: cypress
           # just for full picture after installing Cypress
           # print information about detected browsers, etc
