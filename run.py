@@ -23,9 +23,10 @@ if len(items) == 2:
     raise Exception('Multiple iPhone 15 item')
 
 item = items[0]
+print('items', item)
 
 detail_page = item.find('a').get('href')
-print(detail_page)
+print('detail_page', detail_page)
 
 browser.get(detail_page)
 html = browser.page_source
