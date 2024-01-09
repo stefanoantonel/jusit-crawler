@@ -8,14 +8,15 @@ import time
 # list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit&priceMin=100&priceMax=1100'
 list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit&priceMin=100&priceMax=1100'
 
-options = webdriver.FirefoxOptions()
-options.add_argument('--headless')
-browser = webdriver.Firefox(options=options)
+options = webdriver.ChromeOptions()
+options.add_argument("headless")
+browser = webdriver.Chrome(options=options)
 browser.get(list_link)
 html = browser.page_source
 list_soup = BeautifulSoup(html, features="html.parser")
 
 items = list_soup.findAll('ul', attrs={'class': 'product-listing__list'})
+print('items', items)
 
 if len(items) == 0:
     raise Exception('No iPhone 15 item')
