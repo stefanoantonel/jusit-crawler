@@ -9,7 +9,7 @@ apple_link = 'https://www.apple.com'
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
 browser = webdriver.Chrome(options=options)
-browser.get(list_link)
+browser.get(apple_link)
 html = browser.page_source
 apple_soup = BeautifulSoup(html, features="html.parser")
 
