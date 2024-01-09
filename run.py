@@ -25,7 +25,7 @@ if len(items) == 2:
 item = items[0]
 
 detail_page = item.find('a').get('href')
-detail_page
+print(detail_page)
 
 browser.get(detail_page)
 html = browser.page_source
