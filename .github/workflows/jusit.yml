@@ -24,5 +24,4 @@ jobs:
           python-version: '3.10'
       - run: |
           pip install -q -r requirements.txt
-          # python run.py
-          echo 'hello'
+          python run.py
