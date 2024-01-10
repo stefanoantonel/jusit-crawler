@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit'
 # list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit'
@@ -8,8 +10,8 @@ options = webdriver.ChromeOptions()
 options.add_argument("--no-sandbox");
 options.add_argument("--disable-dev-shm-usage");
 options.add_argument("headless")
-browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(30)
+browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+browser.implicitly_wait(100)
 
 browser.get(list_link)
 
