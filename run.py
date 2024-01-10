@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit&priceMin=100&priceMax=1100'
-# list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit&priceMin=100&priceMax=1100'
+# list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit&priceMin=100&priceMax=1100'
+list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit&priceMin=100&priceMax=1100'
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
