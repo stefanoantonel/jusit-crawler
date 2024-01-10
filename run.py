@@ -7,7 +7,7 @@ list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+1
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
 browser = webdriver.Chrome(options=options)
-# browser.implicitly_wait(20)
+browser.implicitly_wait(20)
 
 browser.get(list_link)
 
