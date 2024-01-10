@@ -11,12 +11,14 @@ list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+1
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
 browser = webdriver.Chrome(options=options)
+browser.implicitly_wait(10)
 browser.get(list_link)
 html = browser.page_source
-apple_soup = BeautifulSoup(html, features="html.parser")
+list_soup = BeautifulSoup(html, features="html.parser")
 browser.quit()
 
-anchors = apple_soup.findAll('a')
+print(list_link)
+anchors = list_soup.findAll('a')
 for a in anchors:
     print(a.get('href'))
 
