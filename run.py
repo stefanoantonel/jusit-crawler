@@ -9,7 +9,7 @@ options.add_argument("headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(20)
+browser.implicitly_wait(30)
 
 browser.get(list_link)
 
