@@ -18,6 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+
       - name: Installing and Building
         uses: actions/setup-python@v5
         with:

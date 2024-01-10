@@ -6,6 +6,8 @@ list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+1
 
 options = webdriver.ChromeOptions()
 options.add_argument("headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 browser = webdriver.Chrome(options=options)
 browser.implicitly_wait(20)
 
