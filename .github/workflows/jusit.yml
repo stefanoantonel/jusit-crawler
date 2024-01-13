@@ -8,7 +8,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    every 1 hour
+    # every 1 hour
     - cron:  '1 * * * *'
 
 jobs:
