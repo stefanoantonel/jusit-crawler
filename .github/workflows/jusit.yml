@@ -28,5 +28,12 @@ jobs:
       - run: |
           pip install -q -r requirements.txt
           echo '>>>>>>>>>>>>>>>>>>>>'
-          python run.py
+          python selenium-crawler
           echo '>>>>>>>>>>>>>>>>>>>>'
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: |
+            ./**/*.png
