@@ -108,8 +108,8 @@ print(detail_link)
 
 if detail_link in ['https://www.jusit.ch/#', '#']:
     print('Detail link not fetch properly')
-    raise Exception('Detail link not fetch properly')
-    # exit()
+    # raise Exception('Detail link not fetch properly')
+    exit()
 browser.get(detail_link)
 not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
