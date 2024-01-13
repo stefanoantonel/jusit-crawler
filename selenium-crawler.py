@@ -35,8 +35,8 @@ from time import sleep
 # In[5]:
 
 
-# list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit'
-list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit'
+list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit'
+# list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit'
 
 
 # In[6]:
@@ -131,9 +131,9 @@ print(items)
 
 
 if len(items) == 0:
-    raise Exception('No iPhone 15 item')
+    raise Exception('No iPhone item')
 if len(items) == 2:
-    raise Exception('Multiple iPhone 15 item')
+    raise Exception('Multiple iPhone items')
 
 
 # In[13]:
@@ -151,7 +151,6 @@ print(detail_link)
 if detail_link in ['https://www.jusit.ch/#', '#']:
     print('Detail link not fetch properly')
     raise Exception('Detail link not fetch properly')
-    # exit()
 browser.get(detail_link)
 not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
