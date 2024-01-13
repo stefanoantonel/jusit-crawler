@@ -6,69 +6,86 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver.firefox.service import Service as Service
 # from webdriver_manager.chrome import ChromeDriverManager
+from time import sleep
 
 
-# In[2]:
+# In[15]:
 
 
-# !venv/bin/pip install webdriver-manager
+# get_ipython().system('rm -f ./*.png')
 
 
 # In[3]:
 
 
-# driver = webdriver.Chrome(ChromeDriverManager().install())
+# !venv/bin/pip install webdriver-manager
 
 
 # In[4]:
+
+
+# driver = webdriver.Chrome(ChromeDriverManager().install())
+
+
+# In[5]:
 
 
 # list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit'
 list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit'
 
 
-# In[5]:
+# In[6]:
 
 
 options = Options()
 options.headless = True
-# options.add_argument("--no-sandbox");
+options.add_argument("--no-sandbox");
 options.add_argument("--disable-dev-shm-usage");
 options.add_argument("headless")
 options.add_argument("--headless")
 options.add_argument("--incognito")
-browser = webdriver.Firefox(options=options)
-browser.implicitly_wait(100)
-
-
-# In[6]:
-
-
-browser.get(list_link)
+browser = webdriver.Chrome(options=options)
+browser.implicitly_wait(5)
+browser.delete_all_cookies()
 
 
 # In[7]:
 
 
-# Accept cookies parameters
-try:
-    browser.get_screenshot_as_file("cookies.png")
-    btn = browser.find_elements(By.CSS_SELECTOR, 'button[data-testid="uc-accept-all-button"]')
-    browser.find_element(By.CSS_SELECTOR, '#focus-lock-id')
-except:
-    print('Error cookies acceptance')
+browser.get(list_link)
+print('Got the link')
+browser.get_screenshot_as_file("after got link.png")
 
 
 # In[8]:
 
 
-items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel')
+# Accept cookies parameters
+def remove_cookie_banner():
+    try:
+        browser.get_screenshot_as_file("cookies.png")
+        focus = browser.find_element(By.ID, 'focus-lock-id')
+        print(focus.get_attribute('innerText'))
+    
+        # btn = browser.find_element(By.CSS_SELECTOR, 'button[data-testid="uc-accept-all-button"]')
+        # print(btn.get_attribute('innerText'))
+    except Exception as e:
+        # print(e)
+        print('Error cookies acceptance')
+        raise SystemExit("Stop right there!")
 
 
 # In[9]:
+
+
+items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel')
+print(items)
+
+
+# In[10]:
 
 
 if len(items) == 0:
@@ -77,19 +94,22 @@ if len(items) == 2:
     raise Exception('Multiple iPhone 15 item')
 
 
-# In[10]:
+# In[11]:
 
 
 link_from_list = items[0]
-browser.get_screenshot_as_file("test_failure.png")
 print(link_from_list)
+
+browser.get_screenshot_as_file("before detail link.png")
+# remove_cookie_banner()
+
 detail_link = link_from_list.get_attribute('href')
 print(detail_link)
-exit()
+
 if detail_link in ['https://www.jusit.ch/#', '#']:
-    # raise Exception('Detail link not fetch properly')
     print('Detail link not fetch properly')
-    exit()
+    raise Exception('Detail link not fetch properly')
+    # exit()
 browser.get(detail_link)
 not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
