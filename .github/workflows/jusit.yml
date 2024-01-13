@@ -7,9 +7,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   push:
   workflow_dispatch:
-  # schedule:
-    # every 1 hour
-    # - cron:  '1 * * * *'
+  schedule:
+    every 1 hour
+    - cron:  '1 * * * *'
 
 jobs:
   build:
