@@ -28,9 +28,9 @@ jobs:
           echo '\n\n'
           python selenium-crawler.py
 
-      # - name: Archive production artifacts
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: screenshots
-      #     path: |
-      #       ./**/*.png
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: |
+            ./**/*.png
