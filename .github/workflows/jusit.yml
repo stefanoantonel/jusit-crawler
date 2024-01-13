@@ -28,7 +28,7 @@ jobs:
       - run: |
           pip install -q -r requirements.txt
           echo '>>>>>>>>>>>>>>>>>>>>'
-          python selenium-crawler
+          python selenium-crawler.py
           echo '>>>>>>>>>>>>>>>>>>>>'
 
       - name: Archive production artifacts
