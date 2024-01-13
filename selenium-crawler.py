@@ -46,12 +46,12 @@ options = Options()
 options.headless = True
 options.add_argument("--no-sandbox");
 options.add_argument("--disable-dev-shm-usage");
-# options.add_argument("headless")
-# options.add_argument("--headless")
-options.add_argument("--incognito")
+options.add_argument("headless")
+options.add_argument("--headless")
+# options.add_argument("--incognito")
 # options.add_argument("--disable-javascript")
 # options.set_preference('javascript.enabled', False)
-options.add_argument("--window-size=800,600")
+# options.add_argument("--window-size=800,600")
 # options.add_experimental_option(
 #   "prefs",
 #   {
@@ -60,7 +60,7 @@ options.add_argument("--window-size=800,600")
 # )
 browser = webdriver.Chrome(options=options)
 # browser.implicitly_wait(5)
-browser.delete_all_cookies()
+# browser.delete_all_cookies()
 
 
 # In[7]:
