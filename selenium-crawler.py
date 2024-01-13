@@ -41,7 +41,7 @@ options.add_argument("headless")
 options.add_argument("--headless")
 options.add_argument("--incognito")
 browser = webdriver.Firefox(options=options)
-# browser.implicitly_wait(100)
+browser.implicitly_wait(100)
 
 
 # In[6]:
