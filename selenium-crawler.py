@@ -22,7 +22,6 @@ browser = webdriver.Chrome(options=options)
 browser.delete_all_cookies()
 
 browser.get(list_link)
-browser.get_screenshot_as_file("after got link.png")
 
 delay = 10
 
@@ -45,14 +44,15 @@ browser.get_screenshot_as_file("after removing cookie banner.png")
 
 remove_cookie_banner()
 
+wrapper = WebDriverWait(browser, delay).until(
+  EC.presence_of_element_located((By.CSS_SELECTOR, 'a.item-panel'))
+)
 items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel')
 print('items', items)
 
-if len(items) == 0:
-    raise Exception('No iPhone 15 item')
-if len(items) == 2:
-    raise Exception('Multiple iPhone 15 item')
-
+if len(items) != 0:
+    browser.get_screenshot_as_file("list issue with items.png")
+    raise Exception('List has an issue')
 
 link_from_list = items[0]
 browser.get_screenshot_as_file("before detail link.png")
