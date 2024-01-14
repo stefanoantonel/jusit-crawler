@@ -27,7 +27,7 @@ jobs:
           python-version: '3.10'
       - run: |
           pip install -q -r requirements.txt
-          echo "\n\n"
+          echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           # export FOO=bar
           python selenium-crawler.py
           # if [ $? -eq 0 ]; then
@@ -37,6 +37,7 @@ jobs:
           # fi
 
       - name: Archive production artifacts
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: screenshots
