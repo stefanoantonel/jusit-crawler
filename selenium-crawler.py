@@ -24,8 +24,9 @@ browser.delete_all_cookies()
 browser.get(list_link)
 browser.get_screenshot_as_file("after got link.png")
 
+delay = 10
+
 def remove_cookie_banner():
-    delay = 5
     try:
         wrapper = WebDriverWait(browser, delay).until(
           EC.presence_of_element_located((By.ID, 'usercentrics-root'))
