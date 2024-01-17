@@ -77,14 +77,12 @@ def remove_cookie_banner():
     except TimeoutException:
         print("Cookie banner did not show up")
 
-browser.get_screenshot_as_file("after removing cookie banner.png")
-
 
 # In[8]:
 
 
 remove_cookie_banner()
-
+browser.get_screenshot_as_file("after removing cookie banner.png")
 
 # In[9]:
 
