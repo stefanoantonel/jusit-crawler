@@ -109,16 +109,19 @@ if len(items) != 1:
 
 PRICE_LIMIT = 640
 def check_prices(iphone_id):
+    lowest_price = 10000
     r = requests.get(f"https://www.jusit.ch/device-details/{iphone_id}")
     payload = r.json()
     iphones = payload['data']['articles']
     for iphone in iphones:
-        if 'salesPrice' in iphone['price']:
-            if iphone['price']['salesPrice'] < PRICE_LIMIT:
-                raise Exception('iPhone found')
-        if 'salesPriceDiscounted' in iphone['price']:
-            if iphone['price']['salesPriceDiscounted'] < PRICE_LIMIT:
-                raise Exception('iPhone found')
+        for category in ['salesPrice', 'salesPriceDiscounted']:
+            if category in iphone['price']:
+                price = iphone['price'][category]
+                if lowest_price > price:
+                    lowest_price = price
+                if price < PRICE_LIMIT:
+                    raise Exception('iPhone found')
+    print('Lowest price', lowest_price)
 
 
 # In[12]:
