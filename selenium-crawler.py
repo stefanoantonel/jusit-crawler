@@ -36,7 +36,7 @@ options.add_argument("--headless")
 options.add_argument("--incognito")
 options.add_argument("--window-size=800,600")
 browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(5)
+# browser.implicitly_wait(5)
 browser.delete_all_cookies()
 delay = 5
 
@@ -108,7 +108,7 @@ if len(items) != 1:
 # In[ ]:
 
 
-link_from_list = items[0]
+link_from_list = browser.find_element(By.CSS_SELECTOR, 'a.item-panel[href]')
 browser.get_screenshot_as_file("before detail link.png")
 detail_link = link_from_list.get_attribute('href')
 print(detail_link)
@@ -147,6 +147,11 @@ def check_prices(iphone_id):
 
 browser.get(detail_link)
 remove_cookie_banner()
+
+
+# In[ ]:
+
+
 not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
     text = not_found.get_attribute('innerText')
