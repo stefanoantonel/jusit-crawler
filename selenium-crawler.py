@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 from selenium import webdriver
@@ -15,20 +15,20 @@ from time import sleep
 import requests
 
 
-# In[2]:
+# In[ ]:
 
 
 # !rm -f ./*.png
 
 
-# In[3]:
+# In[ ]:
 
 
 list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+15+5Gjusit'
 # list_link = 'https://www.jusit.ch/fr/smartphones.html?brand=Apple&model=iPhone+14jusit'
 
 
-# In[4]:
+# In[ ]:
 
 
 options = Options()
@@ -41,30 +41,30 @@ browser.delete_all_cookies()
 delay = 5
 
 
-# In[5]:
+# In[ ]:
 
 
 # browser.set_network_conditions(
 #     offline=False,
-#     latency=1000,  # additional latency (ms)
+#     latency=500,  # additional latency (ms)
 #     download_throughput=300 * 1024,  # maximal throughput
 #     upload_throughput=500 * 1024  # maximal throughput
 # )
 
 
-# In[6]:
+# In[ ]:
 
 
 browser.get(list_link)
 browser.get_screenshot_as_file("after got link.png")
 
 
-# In[7]:
+# In[ ]:
 
 
 def remove_cookie_banner():
     try:
-        wrapper = WebDriverWait(browser, delay).until(
+        WebDriverWait(browser, delay).until(
           EC.presence_of_element_located((By.ID, 'usercentrics-root'))
         )
         banner_container = browser.find_element(By.ID, "usercentrics-root")
@@ -78,23 +78,26 @@ def remove_cookie_banner():
         print("Cookie banner did not show up")
 
 
-# In[8]:
+# In[ ]:
 
 
 remove_cookie_banner()
 browser.get_screenshot_as_file("after removing cookie banner.png")
 
-# In[9]:
+
+# In[ ]:
 
 
-wrapper = WebDriverWait(browser, delay).until(
+WebDriverWait(browser, delay).until(
   EC.presence_of_element_located((By.CSS_SELECTOR, 'div.item-panel__title'))
 )
-items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel')
+items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel[href]')
 print('items', items)
+for i in items:
+    print(i.get_attribute('href'))
 
 
-# In[10]:
+# In[ ]:
 
 
 if len(items) != 1:
@@ -102,7 +105,24 @@ if len(items) != 1:
     raise Exception('List has an issue')
 
 
-# In[11]:
+# In[ ]:
+
+
+link_from_list = items[0]
+browser.get_screenshot_as_file("before detail link.png")
+detail_link = link_from_list.get_attribute('href')
+print(detail_link)
+
+
+# In[ ]:
+
+
+if detail_link in ['https://www.jusit.ch/#', '#']:
+    print('Detail link not fetch properly')
+    raise Exception('Detail link not fetch properly')
+
+
+# In[ ]:
 
 
 PRICE_LIMIT = 640
@@ -122,20 +142,11 @@ def check_prices(iphone_id):
     print('Lowest price', lowest_price)
 
 
-# In[12]:
+# In[ ]:
 
-
-link_from_list = items[0]
-browser.get_screenshot_as_file("before detail link.png")
-
-detail_link = link_from_list.get_attribute('href')
-print(detail_link)
-
-if detail_link in ['https://www.jusit.ch/#', '#']:
-    print('Detail link not fetch properly')
-    raise Exception('Detail link not fetch properly')
 
 browser.get(detail_link)
+remove_cookie_banner()
 not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
     text = not_found.get_attribute('innerText')
@@ -146,10 +157,4 @@ for not_found in not_found_titles:
 print('Detail page not available yet...')
 browser.get_screenshot_as_file("details.png")
 browser.quit()
-
-
-# In[ ]:
-
-
-
 
