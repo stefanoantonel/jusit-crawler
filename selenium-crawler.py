@@ -12,12 +12,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 from time import sleep
+import requests
 
 
 # In[2]:
 
 
-# get_ipython().system('rm -f ./*.png')
+# !rm -f ./*.png
 
 
 # In[3]:
@@ -43,12 +44,12 @@ delay = 5
 # In[5]:
 
 
-browser.set_network_conditions(
-    offline=False,
-    latency=1000,  # additional latency (ms)
-    download_throughput=300 * 1024,  # maximal throughput
-    upload_throughput=500 * 1024  # maximal throughput
-)
+# browser.set_network_conditions(
+#     offline=False,
+#     latency=1000,  # additional latency (ms)
+#     download_throughput=300 * 1024,  # maximal throughput
+#     upload_throughput=500 * 1024  # maximal throughput
+# )
 
 
 # In[6]:
@@ -106,6 +107,23 @@ if len(items) != 1:
 # In[11]:
 
 
+PRICE_LIMIT = 640
+def check_prices(iphone_id):
+    r = requests.get(f"https://www.jusit.ch/device-details/{iphone_id}")
+    payload = r.json()
+    iphones = payload['data']['articles']
+    for iphone in iphones:
+        if 'salesPrice' in iphone['price']:
+            if iphone['price']['salesPrice'] < PRICE_LIMIT:
+                raise Exception('iPhone found')
+        if 'salesPriceDiscounted' in iphone['price']:
+            if iphone['price']['salesPriceDiscounted'] < PRICE_LIMIT:
+                raise Exception('iPhone found')
+
+
+# In[12]:
+
+
 link_from_list = items[0]
 browser.get_screenshot_as_file("before detail link.png")
 
@@ -121,8 +139,16 @@ not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
     text = not_found.get_attribute('innerText')
     if text not in ['Dommage.', "La page n'a pas été trouvée."]:
-        raise Exception('Check page')    
+        discount_found = check_prices(detail_link.split('/').pop())
+        if discount_found:
+            raise Exception('Check page')    
 print('Detail page not available yet...')
 browser.get_screenshot_as_file("details.png")
 browser.quit()
+
+
+# In[ ]:
+
+
+
 
