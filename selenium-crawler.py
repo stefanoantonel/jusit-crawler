@@ -13,12 +13,52 @@ from selenium.common.exceptions import TimeoutException
 
 from time import sleep
 import requests
+import sys
 
 
 # In[ ]:
 
 
 # !rm -f ./*.png
+
+
+# In[ ]:
+
+
+# only for iphone 15
+api_link = 'https://www.jusit.ch/device-details/100013812'
+
+
+# In[ ]:
+
+
+PRICE_LIMIT = 640
+def check_prices(url):
+    lowest_price = 10000
+    print(url)
+    r = requests.get(url)
+    payload = r.json()
+    iphones = payload['data']['articles']
+    for iphone in iphones:
+        for category in ['salesPrice', 'salesPriceDiscounted']:
+            if category in iphone['price']:
+                price = iphone['price'][category]
+                if lowest_price > price:
+                    lowest_price = price
+                if price < PRICE_LIMIT:
+                    raise Exception('iPhone found')
+    print('Lowest price', lowest_price)
+
+
+# In[ ]:
+
+
+try:
+    check_prices(api_link)
+    sys.exit(0)
+except Exception as e:
+    print(e)
+    print('Issue with the API. Fetching whole page ....')
 
 
 # In[ ]:
@@ -36,7 +76,7 @@ options.add_argument("--headless")
 options.add_argument("--incognito")
 options.add_argument("--window-size=800,600")
 browser = webdriver.Chrome(options=options)
-# browser.implicitly_wait(5)
+browser.implicitly_wait(5)
 browser.delete_all_cookies()
 delay = 5
 
@@ -91,6 +131,9 @@ browser.get_screenshot_as_file("after removing cookie banner.png")
 WebDriverWait(browser, delay).until(
   EC.presence_of_element_located((By.CSS_SELECTOR, 'div.item-panel__title'))
 )
+WebDriverWait(browser, delay).until(
+  EC.presence_of_element_located((By.CSS_SELECTOR, 'a.item-panel[href]'))
+)
 items = browser.find_elements(By.CSS_SELECTOR, 'a.item-panel[href]')
 print('items', items)
 for i in items:
@@ -125,26 +168,6 @@ if detail_link in ['https://www.jusit.ch/#', '#']:
 # In[ ]:
 
 
-PRICE_LIMIT = 640
-def check_prices(iphone_id):
-    lowest_price = 10000
-    r = requests.get(f"https://www.jusit.ch/device-details/{iphone_id}")
-    payload = r.json()
-    iphones = payload['data']['articles']
-    for iphone in iphones:
-        for category in ['salesPrice', 'salesPriceDiscounted']:
-            if category in iphone['price']:
-                price = iphone['price'][category]
-                if lowest_price > price:
-                    lowest_price = price
-                if price < PRICE_LIMIT:
-                    raise Exception('iPhone found')
-    print('Lowest price', lowest_price)
-
-
-# In[ ]:
-
-
 browser.get(detail_link)
 remove_cookie_banner()
 
@@ -156,10 +179,17 @@ not_found_titles = browser.find_elements(By.CSS_SELECTOR, 'h4')
 for not_found in not_found_titles:
     text = not_found.get_attribute('innerText')
     if text not in ['Dommage.', "La page n'a pas été trouvée."]:
-        discount_found = check_prices(detail_link.split('/').pop())
+        url = f"https://www.jusit.ch/device-details/{detail_link.split('/').pop()}"
+        discount_found = check_prices(url)
         if discount_found:
             raise Exception('Check page')    
 print('Detail page not available yet...')
 browser.get_screenshot_as_file("details.png")
 browser.quit()
+
+
+# In[ ]:
+
+
+
 
