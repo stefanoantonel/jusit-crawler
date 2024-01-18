@@ -30,7 +30,7 @@ jobs:
           python selenium-crawler.py
 
       - name: Save screenshots artifacts
-        if: ${{ failure() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: screenshots
