@@ -58,6 +58,7 @@ def check_prices(url):
                 if lowest_price > price:
                     lowest_price = price
                 if price < PRICE_LIMIT:
+                    print('Lowest price', price)
                     raise Exception('iPhone found')
     print('Lowest price', lowest_price)
 
