@@ -65,12 +65,7 @@ def check_prices(url):
 # In[ ]:
 
 
-try:
-    check_prices(api_link)
-    sys.exit(0)
-except Exception as e:
-    print(e)
-    print('Issue with the API. Fetching whole page ....')
+check_prices(api_link)
 
 
 # In[ ]:
