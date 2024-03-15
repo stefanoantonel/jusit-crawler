@@ -11,7 +11,7 @@ import sys
 # In[ ]:
 
 
-query = 'https://www.jusit.ch/jusit-search?filter%5Bbrand%5D=Apple&filter%5Bmodel%5D=iPhone%2015%205Gjusit&filter%5BpriceMin%5D=200&filter%5BpriceMax%5D=1100'
+query = 'https://www.jusit.ch/jusit-search?filter%5Bbrand%5D=Apple&filter%5Bmodel%5D=iPhone13Prjusit&filter%5BpriceMin%5D=100&filter%5BpriceMax%5D=1030'
 headers = {
     'authority': 'www.jusit.ch',
     'accept': 'application/json, text/plain, */*',
