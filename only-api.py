@@ -2,11 +2,12 @@ import requests
 import json
 
 # >>>>>>>>>> Check model available
-query = 'https://www.jusit.ch/jusit-search?filter%5Bbrand%5D=Samsung&filter%5BpriceMin%5D=100&filter%5BpriceMax%5D=520&filter%5Bsort%5D=desc'
+query = 'https://www.jusit.ch/jusit-search?filter%5Bbrand%5D=Samsung'
 headers = {
     'authority': 'www.jusit.ch',
     'accept': 'application/json, text/plain, */*',
     'accept-language': 'de-CH',
+    'cache': 'no-cache'
 }
 r = requests.get(query, headers=headers)
 
@@ -14,6 +15,7 @@ r = requests.get(query, headers=headers)
 items = r.json()['data']
 
 for item in items:
+    print(item["name"])
     if item["name"] == 'Galaxy S23 +' or item["name"] == 'Galaxy S23+':
         raise Exception('S23+ found')
 
@@ -74,4 +76,3 @@ for item in items:
 
 
 # check_prices(api_link)
-
